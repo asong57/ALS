@@ -5,7 +5,7 @@ public class OpenChattingRoom {
     //- 해시맵 이용
 
     public static void main(String[] args){
-        String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
+        String[] record = {"Enter uid1234 Muzi", "Enter uid5678 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
         solution(record);
     }
     public static String[] solution(String[] record) {
