@@ -5,7 +5,7 @@ public class DoubleRemoval {
     //- list나 해시셋을 생각해서 풀기도 하고, 그냥 charAt비교로 풀어보았는데 효율성체크를 다 통과하지 못했다.
     //- 결국은 스택으로 푸는 문제였다. 그래야 효율성테스트를 통과할 수 있다.
     //- 가장 기본적인 자료구조인 스택을 사용할 것!
-    
+
     public static void main(String[] args) {
         System.out.println(solution("aabaab"));
     }
