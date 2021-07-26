@@ -41,4 +41,20 @@ public class Baekjoon2230 {
         }
         System.out.println(min);
     }
+    public void twopointer(int right, int left, int[] inputArr, int N, int M, int minValue){
+        //그냥 right가 n보다 작은 경우를 while문으로 해서 하면 된다. 따로 left, right 설정하지 않아도 된다.
+        while(right <= N) {
+            int diff = inputArr[right] - inputArr[left];
+
+            if(diff > M) {
+                minValue = Math.min(minValue, diff);
+                left++;
+            }else if(diff == M) {
+                minValue = M;
+                break;
+            }else{
+                right++;
+            }
+        }
+    }
 }
