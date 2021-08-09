@@ -7,34 +7,36 @@ public class Baekjoon2805 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int k = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
-        long[] lansun = new long[k];
-        long max = 0;
-        for (int i = 0; i < k; i++) {
-            lansun[i] = Integer.parseInt(br.readLine());
-            max = Math.max(max, lansun[i]);
+        int m = Integer.parseInt(st.nextToken());
+        StringTokenizer st2 = new StringTokenizer(br.readLine());
+        int[] trees = new int[n];
+        int max = -1;
+        for (int i = 0; i < n; i++) {
+            trees[i] = Integer.parseInt(st2.nextToken());
+            max = Math.max(trees[i], max);
         }
 
-        long maxLength = 0;
-        long start = 1;
-        long end = max;
-        long mid = (end + 1) / 2;
-
-        while (end - start >= 0) {
-            long sum = 0;
-            for (int i = 0; i < k; i++) {
-                sum += lansun[i] / mid;
-            }
-            if (sum < n) {
-                end = mid - 1;
-            }
-            if (sum >= n) {
-                maxLength = Math.max(maxLength, mid);
-                start = mid + 1;
-            }
+        int start = 1;
+        int end = max;
+        int mid = 0;
+        int result = 0;
+        while (start <= end) {
             mid = (start + end) / 2;
+            long sum = 0;
+            for (int i = 0; i < n; i++) {
+                if (trees[i] > mid) {
+                    sum += (trees[i] - mid);
+                }
+            }
+
+            if (sum < m) {
+                end = mid - 1;
+            } else if (sum >= m) {
+                start = mid + 1;
+                result = Math.max(result, mid);
+            }
         }
-        System.out.println(maxLength);
+        System.out.println(result);
     }
 }
