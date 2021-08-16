@@ -4,45 +4,55 @@ import java.util.HashSet;
 public class Kakao2020_GemShopping {
     public static int[] solution(String[] gems) {
         int[] answer = new int[2];
+
         HashSet<String> hs = new HashSet<>();
-        for (int i = 0; i < gems.length; i++) {
-            if (!hs.contains(gems[i])) {
-                hs.add(gems[i]);
-            }
+        for (String gem : gems) {
+            hs.add(gem);
         }
-        int total = hs.size();
+        int m = hs.size();
 
-        HashSet<String> gemSet;
-        HashMap<Integer, Integer> count = new HashMap<>();
+        int left = 0;
+        int right = 0;
         int min = Integer.MAX_VALUE;
-        for (int i = 0; i < gems.length - total; i++) {
-            gemSet = new HashSet<>();
+        int minLeft = Integer.MAX_VALUE;
+        int minRight = Integer.MAX_VALUE;
 
-            for (int j = i; j < gems.length; j++) {
-                if (!gemSet.contains(gems[j])) {
-                    gemSet.add(gems[j]);
+        HashMap<String, Integer> hm = new HashMap<>();
+
+        while (true) {
+            if (hm.size() == m) {
+                hm.put(gems[left], hm.get(gems[left]) - 1);
+                if (hm.get(gems[left]) == 0) {
+                    hm.remove(gems[left]);
                 }
+                left++;
+            } else if (right == gems.length) {
+                break;
+            } else {
+                hm.put(gems[right], hm.getOrDefault(gems[right], 0) + 1);
+                right++;
+            }
 
-                if (gemSet.size() == total) {
-                    if (!count.containsKey(j - i)) {
-                        count.put(j - i, i);
+            if (hm.size() == m) {
+                if (right - left < min) {
+                    min = right - left;
+                    minLeft = left;
+                    minRight = right;
+                } else if (right - left == min) {
+                    if (minLeft > left) {
+                        minLeft = left;
+                        minRight = right;
                     }
-                    break;
                 }
             }
         }
-
-        for (int n : count.keySet()) {
-            min = Math.min(min, n);
-        }
-        System.out.println(min);
-        answer[0] = count.get(min) + 1;
-        answer[1] = min + answer[0];
+        answer[0] = minLeft + 1;
+        answer[1] = minRight;
         return answer;
     }
 
     public static void main(String[] args) {
-        String[] gems = {"AA", "AB", "AC", "AA", "AC"};
+        String[] gems = {"DIA", "RUBY", "RUBY", "DIA", "DIA", "EMERALD", "SAPPHIRE", "DIA"};
         System.out.println(solution(gems)[0] + " " + solution(gems)[1]);
     }
 }
