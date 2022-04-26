@@ -54,3 +54,53 @@ func colDiff(num: Int) -> Int{
     }
     return (num-1)%3
 }
+
+func solution_Keypad2(_ numbers:[Int], _ hand:String) -> String {
+    var answer = ""
+    var left = 10
+    var right = 12
+    for n in numbers{
+        if n == 1 || n == 4 || n == 7{
+            answer += "L"
+            left = n
+        }else if n == 3 || n == 6 || n == 9{
+            answer += "R"
+            right = n
+        }else{
+            var leftDistance = abs(((left-1) / 3) - (n / 3)) + abs(((left-1) % 3) - ((n-1)%3))
+            var rightDistance = abs(((right-1) / 3) - (n / 3)) + abs(((right-1) % 3) - ((n-1)%3))
+            if n == 0{
+                leftDistance = abs(((left-1) / 3) - 3) + abs(((left-1) % 3) - 1)
+            rightDistance = abs(((right-1) / 3) - 3) + abs(((right-1) % 3) - 1)
+            }
+            if leftDistance < rightDistance{
+                answer += "L"
+                left = n
+                if n == 0{
+                    left = 11
+                }
+            }else if leftDistance > rightDistance{
+                answer += "R"
+                right = n
+                if n == 0{
+                    right = 11
+                }
+            }else{
+                if hand == "left"{
+                    answer += "L"
+                    left = n
+                    if n == 0{
+                        left = 11
+                    }
+                }else{
+                    answer += "R"
+                    right = n
+                    if n == 0{
+                        right = 11
+                    }
+                }
+            }
+        }
+    }
+    return answer
+}
