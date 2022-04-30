@@ -15,20 +15,21 @@ func solution_Traffic(_ lines:[String]) -> Int {
     arr = arr.sorted(by: {$0.start < $1.start})
     var time = arr[0].start
     var left = 0
-    var answer = 0
-    while time <= arr[arr.count-1].end && left < arr.count{
+    var answer = 1
+    while left < arr.count{
         time = arr[left].start
-        while arr[left].end > time{
-            var i = left + 1
-            var count = 1
-            while i < arr.count && arr[i].start < time + 1000{
-                count += 1
+        while arr[left].end >= time{
+            var i = 0
+            var count = 0
+            while i < arr.count {
+                if arr[i].start >= time && arr[i].start < time + 1000{
+                    count += 1
+                }else if arr[i].end >= time && arr[i].end < time + 1000 {
+                  count += 1
+                }else if arr[i].start < time && arr[i].end >= time + 1000{
+                    count += 1
+                }
                 i += 1
-            }
-            i = left - 1
-            while i >= 0 && arr[i].end >= time{
-                count += 1
-                i -= 1
             }
             if count > answer{
                  answer = count
@@ -37,24 +38,24 @@ func solution_Traffic(_ lines:[String]) -> Int {
         }
         
         time = arr[left].end
-        var i = left + 1
         var count = 1
-        while i < arr.count && arr[i].start >= time && arr[i].start < time + 1000{
-                count += 1
+        while time >= arr[left].start{
+            var i = 0
+            count = 0
+            while i < arr.count {
+                if arr[i].start >= time && arr[i].start < time + 1000{
+                    count += 1
+                }else if arr[i].end >= time && arr[i].end < time + 1000 {
+                  count += 1
+                }else if arr[i].start < time && arr[i].end >= time + 1000{
+                    count += 1
+                }
                 i += 1
-        }
-        var j = left - 1
-        time -= 1000
-        while j >= 0 && arr[j].end < time {
-            i = left - 1
-            while i >= 0 && arr[i].end >= time{
-                count += 1
-                i -= 1
+            }
+            if count > answer{
+                answer = count
             }
             time -= 1000
-        }
-        if count > answer{
-            answer = count
         }
         left += 1
     }
