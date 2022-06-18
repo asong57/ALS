@@ -36,4 +36,34 @@ l: for i in 0..<play_list.count{
     }
     return answer
 }
-print(solution_NWTP3([1,2,3,4], 20))
+// print(solution_NWTP3_2([2,3,1,4], 3))
+func solution_NWTP3_2(_ play_list:[Int], _ listen_time: Int) -> Int{
+    var answer = 1
+    var playSum: [Int] = Array(repeating: 0, count: play_list.count+1+play_list.count)
+    for i in 1...play_list.count{
+        playSum[i] = playSum[i-1] + play_list[i-1]
+    }
+    for i in play_list.count+1..<playSum.count{
+        playSum[i] = playSum[i-1] + play_list[i-play_list.count-1]
+    }
+    
+    var left = 0
+    var right = 1
+    while left < play_list.count{
+        if playSum[right] - playSum[left] <= listen_time-1{
+            right += 1
+            if right == playSum.count{
+                break
+            }
+            if right - left + 1 > play_list.count{
+                answer = play_list.count
+                return answer
+            }
+            answer = Swift.max(answer, right - left + 1)
+        }else{
+            left += 1
+        }
+    }
+    
+    return answer
+}
